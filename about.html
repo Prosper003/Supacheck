@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — SupaCheck</title>
+<meta name="description" content="SupaCheck is developed by TCT Technologies.">
+<meta property="og:title" content="About — SupaCheck">
+<meta property="og:description" content="SupaCheck is developed by TCT Technologies.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="logo.jpg">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #1B2A4A;
+    --navy-deep: #101B33;
+    --white: #FFFFFF;
+    --paper: #F7F8FA;
+    --line: #E3E6ED;
+    --ink-soft: #5B6478;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  body{
+    font-family: 'Roboto', sans-serif;
+    color: var(--navy-deep);
+    background: var(--white);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; }
+  .wrap{ max-width: 640px; margin: 0 auto; padding: 0 24px; }
+
+  header{ padding: 28px 24px; }
+  .logo-img{ height: 24px; width: auto; }
+  header a{ display: inline-block; }
+
+  main{ padding: 40px 0 80px; }
+  h1{ font-size: 30px; font-weight: 700; margin-bottom: 20px; }
+  p{ font-size: 16px; color: var(--ink-soft); margin-bottom: 18px; }
+  .founder{
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .founder h2{ font-size: 15px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+  .founder p{ margin-bottom: 6px; }
+  .founder .name{ font-weight: 700; color: var(--navy-deep); }
+
+  .products{
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .products h2{ font-size: 15px; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 14px; }
+  .product-list{ list-style: none; }
+  .product-list li{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 15.5px;
+  }
+  .product-list li:last-child{ border-bottom: none; }
+  .product-list .p-name{ font-weight: 700; color: var(--navy-deep); min-width: 100px; }
+  .product-list .p-desc{ color: var(--ink-soft); font-size: 14.5px; }
+
+  footer{
+    border-top: 1px solid var(--line);
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .foot-links{
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  .foot-links a{ text-decoration: none; }
+  .foot-links a:hover{ color: var(--navy); }
+  .foot-copy{ font-size: 13px; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html"><img src="logo.jpg" alt="SupaCheck" class="logo-img"></a>
+</header>
+
+<main>
+  <div class="wrap">
+    <h1>About SupaCheck</h1>
+    <p>SupaCheck reviews final year project chapters for structure, citation, and formatting issues — checking each chapter against the standards Nigerian universities actually grade on. It does not generate or rewrite content; every fix stays in the student's own words.</p>
+
+    <div class="founder">
+      <h2>Developed by</h2>
+      <p class="name">TCT Technologies</p>
+      <p>TCT Technologies is a Nigerian tech startup building AI-powered tools that make useful technology cheap and accessible for students and young professionals — starting with the everyday academic and career work that usually costs far more than it should.</p>
+    </div>
+
+    <div class="founder">
+      <h2>Founder</h2>
+      <p class="name">Oliyide Prosper Adedamola</p>
+      <p>A Human Anatomy graduate, Oliyide founded TCT Technologies to bridge the gap between young Nigerians and cheap, accessible AI tools — building every product from the ground up with that goal in mind.</p>
+    </div>
+
+    <div class="products">
+      <h2>Other TCT Technologies products</h2>
+      <ul class="product-list">
+        <li><span class="p-name">Lydia AI</span><span class="p-desc">Academic document generation for university students</span></li>
+        <li><span class="p-name">Pertho</span><span class="p-desc">AI-powered PDF reader for students</span></li>
+        <li><span class="p-name">SupaCheck</span><span class="p-desc">Chapter-by-chapter project review</span></li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-links">
+    <a href="index.html">Home</a>
+    <a href="#">Terms</a>
+    <a href="#">Privacy</a>
+  </div>
+  <p class="foot-copy">© 2026 TCT Technologies</p>
+</footer>
+
+</body>
+</html>
