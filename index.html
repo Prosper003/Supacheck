@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SupaCheck — Chapter review for your final year project</title>
+<meta name="description" content="SupaCheck checks your project chapter for structure, citation, and formatting issues — chapter by chapter.">
+<meta property="og:title" content="SupaCheck — Chapter review for your final year project">
+<meta property="og:description" content="SupaCheck checks your project chapter for structure, citation, and formatting issues — chapter by chapter.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="logo.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SupaCheck">
+<meta name="twitter:description" content="Chapter-by-chapter review for your final year project.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Anton&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #1B2A4A;
+    --navy-deep: #101B33;
+    --white: #FFFFFF;
+    --paper: #F7F8FA;
+    --line: #E3E6ED;
+    --ink-soft: #5B6478;
+    --green: #1F9D55;
+  }
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  body{
+    font-family: 'Roboto', sans-serif;
+    color: var(--navy-deep);
+    background: var(--white);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3{ font-family: 'Roboto', sans-serif; letter-spacing: -0.01em; }
+  a{ color: inherit; }
+  .wrap{ max-width: 760px; margin: 0 auto; padding: 0 24px; width: 100%; }
+
+  /* Hero — no top bar, logo centered */
+  .hero{
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 24px 60px;
+  }
+  .logo-img{
+    height: 34px;
+    width: auto;
+    margin-bottom: 22px;
+  }
+  .hero p.tagline{
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--ink-soft);
+    max-width: 460px;
+    margin-bottom: 36px;
+    line-height: 1.5;
+  }
+
+  .search-shell{
+    width: 100%;
+    max-width: 580px;
+    position: relative;
+  }
+  .upload-bar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--white);
+    border: 1.5px solid var(--line);
+    border-radius: 100px;
+    padding: 8px 8px 8px 26px;
+    box-shadow: 0 2px 10px rgba(16,27,51,0.05);
+    transition: border-color 0.15s ease;
+  }
+  .upload-bar.open{ border-color: var(--navy); border-radius: 24px 24px 0 0; }
+  .upload-label{
+    font-size: 15.5px;
+    color: var(--ink-soft);
+    text-align: left;
+    flex: 1;
+  }
+  .plus-btn{
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: 100px;
+    padding: 13px 24px;
+    font-size: 14.5px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .plus-btn:hover{ background: var(--navy-deep); }
+  .plus-btn .plus{ font-size: 18px; line-height: 1; font-weight: 400; transition: transform 0.15s ease; }
+  .plus-btn.open .plus{ transform: rotate(45deg); }
+
+  /* Expandable panel */
+  .panel{
+    max-height: 0;
+    overflow: hidden;
+    background: var(--paper);
+    border: 1.5px solid var(--navy);
+    border-top: none;
+    border-radius: 0 0 24px 24px;
+    transition: max-height 0.25s ease;
+  }
+  .panel.open{ max-height: 320px; }
+  .panel-inner{ padding: 20px 26px 24px; text-align: left; }
+  .panel-title{ font-size: 14px; font-weight: 700; color: var(--navy-deep); margin-bottom: 10px; }
+  .panel-list{ list-style: none; margin-bottom: 18px; }
+  .panel-list li{
+    font-size: 14px; color: var(--ink-soft); padding: 5px 0 5px 20px; position: relative;
+  }
+  .panel-list li::before{ content: "✓"; position:absolute; left:0; color: var(--green); font-weight:700; }
+  .panel-upload-btn{
+    width: 100%;
+    background: var(--navy);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .panel-upload-btn:hover{ background: var(--navy-deep); }
+  #chapter-file{ display: none; }
+  .panel-gate-text{ font-size: 14px; color: var(--ink-soft); margin-bottom: 16px; }
+  .gate-actions{ display: flex; gap: 10px; }
+  .gate-btn{
+    flex: 1;
+    text-align: center;
+    padding: 13px;
+    border-radius: 10px;
+    font-size: 14.5px;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1.5px solid var(--navy);
+    color: var(--navy);
+  }
+  .gate-btn.primary{ background: var(--navy); color: var(--white); }
+  .gate-btn.primary:hover{ background: var(--navy-deep); border-color: var(--navy-deep); }
+  .gate-btn:hover{ background: var(--paper); }
+
+  .price-note{
+    margin-top: 18px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+
+  /* Pricing */
+  .pricing{ padding: 64px 0; border-top: 1px solid var(--line); }
+  .pricing-head{ text-align: center; margin-bottom: 36px; }
+  .pricing-head h2{ font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .pricing-head p{ font-size: 15px; color: var(--ink-soft); }
+  .price-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .price-card.single{ max-width: 420px; margin: 0 auto; }
+  .price-amount .once{ font-size: 14px; font-weight: 500; color: var(--ink-soft); }
+  .price-card{
+    background: var(--white);
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 30px 26px;
+  }
+  .price-card.highlight{ border-color: var(--navy); box-shadow: 0 4px 16px rgba(27,42,74,0.08); }
+  .price-tag{ font-size: 12.5px; font-weight: 700; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; }
+  .price-amount{ font-size: 40px; font-weight: 700; color: var(--navy-deep); margin: 8px 0 6px; }
+  .price-sub{ font-size: 14px; color: var(--ink-soft); margin-bottom: 20px; }
+  .price-list{ list-style: none; }
+  .price-list li{
+    font-size: 14.5px; color: #33405C; padding: 6px 0 6px 22px; position: relative;
+  }
+  .price-list li::before{ content: "✓"; position:absolute; left:0; color: var(--green); font-weight:700; }
+
+  /* Developed by */
+  .developed{
+    border-top: 1px solid var(--line);
+    padding: 48px 24px;
+    text-align: center;
+  }
+  .developed-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--navy-deep);
+    font-size: 19px;
+    font-weight: 700;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .developed-link:hover{ border-color: var(--navy); color: var(--navy); }
+  .developed-link .arrow{ font-size: 18px; transition: transform 0.15s ease; }
+  .developed-link:hover .arrow{ transform: translateX(4px); }
+  .developed p.sub{ font-size: 13px; color: var(--ink-soft); margin-top: 10px; }
+
+  /* Basics */
+  .basics{ padding: 60px 0; border-top: 1px solid var(--line); }
+  .basics-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .basic-item h3{ font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .basic-item p{ font-size: 14.5px; color: var(--ink-soft); }
+
+  .boundary{ padding: 56px 0; border-top: 1px solid var(--line); text-align: center; }
+  .boundary-inner{ max-width: 540px; margin: 0 auto; }
+  .boundary h2{ font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+  .boundary p{ font-size: 15px; color: var(--ink-soft); }
+
+  footer{
+    border-top: 1px solid var(--line);
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .foot-links{
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  .foot-links a{ text-decoration: none; }
+  .foot-links a:hover{ color: var(--navy); }
+  .foot-copy{ font-size: 13px; color: var(--ink-soft); }
+
+  @media (max-width: 620px){
+    .basics-grid{ grid-template-columns: 1fr; }
+    .upload-bar{ flex-direction: column; align-items: stretch; gap: 12px; border-radius: 20px; padding: 18px; }
+    .upload-bar.open{ border-radius: 20px 20px 0 0; }
+    .upload-label{ text-align: center; }
+    .plus-btn{ justify-content: center; }
+    .price-grid{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <img src="logo.jpg" alt="SupaCheck" class="logo-img">
+  <p class="tagline">SupaCheck checks your project chapter for structure, citation, and formatting issues — chapter by chapter.</p>
+
+  <div class="search-shell">
+    <div class="upload-bar" id="upload-bar">
+      <span class="upload-label" id="upload-label">Add your chapter to get started</span>
+      <button type="button" class="plus-btn" id="plus-btn">
+        <span class="plus">+</span> Upload file
+      </button>
+    </div>
+    <div class="panel" id="panel">
+      <div class="panel-inner" id="panel-step-1">
+        <p class="panel-title">Here's what you'll get</p>
+        <ul class="panel-list">
+          <li>A structural review of your chapter in under a minute</li>
+          <li>Every issue explained — not just flagged</li>
+          <li>Clear next steps for what to fix</li>
+        </ul>
+        <label for="chapter-file" class="panel-upload-btn">Upload document</label>
+        <input type="file" id="chapter-file" accept=".pdf,.doc,.docx,.txt">
+      </div>
+      <div class="panel-inner" id="panel-step-2" style="display:none;">
+        <p class="panel-title" id="file-chosen-title">Document added</p>
+        <p class="panel-gate-text">Sign up or log in to see your review.</p>
+        <div class="gate-actions">
+          <a href="signup.html" class="gate-btn primary">Sign up</a>
+          <a href="login.html" class="gate-btn">Log in</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing">
+  <div class="wrap">
+    <div class="pricing-head">
+      <h2>Pricing</h2>
+      <p>One payment. Full access. No subscription.</p>
+    </div>
+    <div class="price-card highlight single">
+      <span class="price-tag">Full access</span>
+      <div class="price-amount">₦900 <span class="once">one-time</span></div>
+      <p class="price-sub">Unlocks review access for every chapter of your project.</p>
+      <ul class="price-list">
+        <li>Every chapter reviewed</li>
+        <li>Structural, citation, and formatting checks</li>
+        <li>No expiry — return anytime</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="basics">
+  <div class="wrap basics-grid">
+    <div class="basic-item">
+      <h3>Chapter-specific review</h3>
+      <p>Select which chapter you're submitting. Each one is checked against a different set of requirements.</p>
+    </div>
+    <div class="basic-item">
+      <h3>Sign up once</h3>
+      <p>Create an account once. Come back anytime — your access and past reviews are right there.</p>
+    </div>
+    <div class="basic-item">
+      <h3>Pay once, not monthly</h3>
+      <p>₦900 unlocks the rest of your project. No renewal, no expiry, no recurring charge.</p>
+    </div>
+  </div>
+</section>
+
+<section class="boundary">
+  <div class="boundary-inner">
+    <h2>What SupaCheck checks</h2>
+    <p>SupaCheck reviews structure, citation formatting, and chapter requirements against university standards. It does not generate or rewrite content — every correction stays in your own words.</p>
+  </div>
+</section>
+
+<section class="developed">
+  <a href="about.html" class="developed-link">Developed by TCT Technologies <span class="arrow">→</span></a>
+  <p class="sub">Learn more about who's behind SupaCheck</p>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="about.html">About</a>
+    <a href="#">Terms</a>
+    <a href="#">Privacy</a>
+  </div>
+  <p class="foot-copy">© 2026 TCT Technologies</p>
+</footer>
+
+<script>
+  const plusBtn = document.getElementById('plus-btn');
+  const panel = document.getElementById('panel');
+  const uploadBar = document.getElementById('upload-bar');
+  const fileInput = document.getElementById('chapter-file');
+  const uploadLabel = document.getElementById('upload-label');
+  const step1 = document.getElementById('panel-step-1');
+  const step2 = document.getElementById('panel-step-2');
+  const fileChosenTitle = document.getElementById('file-chosen-title');
+
+  plusBtn.addEventListener('click', function(){
+    panel.classList.toggle('open');
+    plusBtn.classList.toggle('open');
+    uploadBar.classList.toggle('open');
+  });
+
+  fileInput.addEventListener('change', function(e){
+    if(e.target.files.length > 0){
+      uploadLabel.textContent = e.target.files[0].name;
+      fileChosenTitle.textContent = e.target.files[0].name + " added";
+      step1.style.display = 'none';
+      step2.style.display = 'block';
+    }
+  });
+</script>
+
+</body>
+</html>
